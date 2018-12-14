@@ -179,3 +179,48 @@ class CalendarWidget(forms.TextInput):
 				})
 
 		return mark_safe(u''.join(output))
+
+class DateTimeWidget(forms.TextInput):
+	"""
+	var cal = new CalendarPopup('mydiv');
+	cal.showNavigationDropdowns();
+	cal.select(inputObject, anchorname, dateFormat);
+	"""
+	class Media:
+		js = (
+			'/media/ocemr/js/AnchorPosition.js',
+			'/media/ocemr/js/jquery-1.4.2.js',
+			'/media/ocemr/js/jquery.datetimepicker.js',
+			'/media/ocemr/js/PopupWindow.js',
+		)
+	def render(self, name, value, attrs=None):
+		from django.utils import formats
+		output = []
+		output.append(
+			"""<div id="%(NAME)s"></div><SCRIPT LANGUAGE="JavaScript" ID="jscal_%(NAME)s">
+                        var cal_%(NAME)s = $('#%(NAME)s').datetimepicker({
+        date: new Date(),
+        viewMode: 'YMDHM',
+        firstDayOfWeek: 0,
+        onDateChange: function(){
+            $('#id_%(NAME)s').val(this.getText());
+        },
+        onClose: function(){
+            this.element.remove();
+        }
+    });
+			</SCRIPT>""" %{
+				'NAME': name,
+			})
+		output.append(super(DateTimeWidget, self).render(name, value, attrs))
+		date_format = formats.get_format('DATETIME_INPUT_FORMATS')[2]
+		js_date_format = date_format.replace('%d','dd').replace('%m','MM').replace('%Y','yyyy').replace('%y','yy')
+		output.append(
+			"""<div id="cal_%(NAME)s_text"></div>
+			""" % \
+				{
+					'NAME': name,
+					'DATE_FORMAT': js_date_format,
+				})
+
+		return mark_safe(u''.join(output))
