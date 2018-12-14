@@ -1,0 +1,37 @@
+{% extends "base_visit.html" %}
+{% block visitExtrahead %}
+{% endblock %}
+{% block visitContent %}
+<DIV ID=pregTable>
+Pregnancy History
+<P>
+<TABLE>
+    <TR><TH><TH>Date of<TH>Gest<TH>Mode of<TH>Gender<TH>Presentation<TH>Length<TH>Complications<TH>Referral<TH>Referral<TH>PP<TH>PP<TH>Brestfeeding<TH>PMTCT<TH>Tetanus</TR>
+    <TR><TH>#<TH>Delivery<TH>Age<TH>Delivery<TH><TH><TH>of Labor<TH><TH><TH>Outcome<TH>F/U<TH>Comp<TH>Problems<TH><TH>Booster</TR>
+{% for pr in pregnancy %}
+<TR>
+        <TD><A HREF="#" " onClick='window.open("/visit/{{v.id}}/preg/edit/{{pr.id}}","Update Pregnancy","menubar=no,width=540,height=540,toolbar=no,scrollbars=yes");'>{{ forloop.counter }}
+   <TD>{{ pr.deliveryDate }}
+   <TD>{{ pr.gestationalAge }}w, {{ pr.gestationalAgePlusDays }}d
+   <TD>{{ pr.deliveryMode }}
+   <TD>{% ifequal pr.gender "M" %}
+           Male
+       {% else %}
+           Female
+       {% endifequal %}
+   <TD>{{ pr.presentation }}
+   <TD>{{ pr.laborLength }}
+   <TD>{{ pr.complications }}
+   <TD>{{ pr.referral }}
+   <TD>{{ pr.referralOutcome }}
+   <TD>{{ pr.postpartumFollowUp | yesno:"Yes,No" }}
+   <TD>{{ pr.postpartumComplications }}
+   <TD>{{ pr.breastfeedingProblems | yesno:"Yes,No" }}
+   <TD>{{ pr.pmtct | yesno:"Yes,No" }}
+   <TD>{{ pr.tetanusBoosterDate | date:"Y-m-d" }}</A>
+</TR>
+{% endfor %}
+</TABLE>
+<BR><A HREF="#" onClick='window.open("/visit/{{v.id}}/preg/new/","New Pregnancy","menubar=no,width=540,height=480,toolbar=no,scrollbars=yes");'>Add Pregnancy</A>
+</DIV> <!-- pregTable -->
+{% endblock %}

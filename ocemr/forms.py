@@ -486,6 +486,109 @@ required=False
 #		return d
 #
 #
+
+class NewPregnancyForm(forms.Form):
+	from models import Pregnancy, Patient
+	patient = forms.ModelChoiceField(queryset=Patient.objects.all(),widget=forms.HiddenInput)
+	addedBy = forms.ModelChoiceField(queryset=User.objects.all(),widget=forms.HiddenInput)
+	addedDateTime = forms.DateTimeField(widget=forms.HiddenInput,required=False)
+
+	deliveryDate = forms.DateTimeField(
+		label="Delivery Date",
+		required=True,
+                widget=widgets.DateTimeWidget
+		)
+	gestationalAge = forms.IntegerField(
+		label="Gestational Age",
+		help_text="Weeks (wga)",
+                min_value=0,
+                max_value=100,
+		required=True,
+                )
+	gestationalAgePlusDays = forms.IntegerField(
+		label="Gestational Age Days",
+                help_text="Optional: Days to add to Weeks Gestational Age",
+                min_value=0,
+                max_value=6,
+		required=False,
+                )
+	deliveryMode = forms.ChoiceField(
+		label="Delivery Mode",
+                choices=Pregnancy.PREGNANCY_DELIVERY_MODES,
+		required=True,
+                )
+	gender = forms.ChoiceField(
+                label='Gender',
+                required=True,
+                choices=Pregnancy.GENDER_CHOICES
+                )
+	presentation = forms.CharField(
+		label="Presentation",
+		help_text="Vertex / Breech / other",
+		required=False,
+		)
+	laborLength = forms.CharField(
+		label="Labor Length",
+                help_text="Time (HH:MM)",
+		required=True,
+		)
+	complications = forms.CharField(
+		label="Complications",
+                help_text="Optional: Problems during pregnancy, labor, or delivery",
+		required=False,
+                widget=forms.Textarea
+		)
+	referral = forms.CharField(
+		label="Referral",
+                help_text="Optional: Referral to outside Doctor/Hospital/Specialist",
+		required=False,
+		)
+	referralOutcome = forms.CharField(
+		label="Referral Outcome",
+                help_text="Optional: Outcome from referral",
+		required=False,
+                widget=forms.Textarea
+		)
+	postpartumFollowUp = forms.ChoiceField(
+		label="PP Follow Up",
+                help_text="Did mom get the recommended care after delivery?",
+		required=True,
+                choices=Pregnancy.BOOL_CHOICES,
+		)
+	postpartumComplications = forms.CharField(
+		label="PP Complications",
+                help_text="Optional: Postpartum problems after delivery",
+		required=False,
+                widget=forms.Textarea
+		)
+	breastfeedingProblems = forms.ChoiceField(
+                label="Breastfeeding Problems",
+                required=True,
+                initial=False,
+                choices=Pregnancy.BOOL_CHOICES,
+                )
+	pmtct = forms.ChoiceField(
+                label="PMTCT",
+                help_text="HIV prophylaxis given during pregnancy",
+                required=True,
+                choices=Pregnancy.BOOL_CHOICES,
+                )
+	tetanusBoosterDate = forms.DateTimeField(
+		label="Tetanus Toxoid",
+                help_text="Optional: Date of TT Booster",
+		required=False,
+                widget=widgets.DateTimeWidget
+		)
+
+	def __init__(self, patient, user, *args, **kwargs):
+		super(NewPregnancyForm, self).__init__(*args, **kwargs)
+		self.fields['patient'].initial=patient.id
+		self.fields['addedBy'].initial=user.id
+
+	def clean_addedDateTime(self):
+		from datetime import datetime
+		return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 class NewExamNoteForm(forms.ModelForm):
 	from models import Visit, ExamNoteType, Patient
 	type = forms.ModelChoiceField(queryset=ExamNoteType.objects.all(),widget=forms.HiddenInput)
