@@ -496,26 +496,27 @@ class NewPregnancyForm(forms.Form):
 	deliveryDate = forms.DateTimeField(
 		label="Delivery Date",
 		required=True,
-                widget=widgets.DateTimeWidget
+                help_text="Format: 'YYYY-MM-DD HH:MM'<br>Time can be omitted.",
+                widget=widgets.CalendarWidget
 		)
 	gestationalAge = forms.IntegerField(
 		label="Gestational Age",
 		help_text="Weeks (wga)",
                 min_value=0,
                 max_value=100,
-		required=True,
+		required=True
                 )
 	gestationalAgePlusDays = forms.IntegerField(
 		label="Gestational Age Days",
                 help_text="Optional: Days to add to Weeks Gestational Age",
                 min_value=0,
                 max_value=6,
-		required=False,
+		required=False
                 )
 	deliveryMode = forms.ChoiceField(
 		label="Delivery Mode",
                 choices=Pregnancy.PREGNANCY_DELIVERY_MODES,
-		required=True,
+		required=True
                 )
 	gender = forms.ChoiceField(
                 label='Gender',
@@ -525,12 +526,12 @@ class NewPregnancyForm(forms.Form):
 	presentation = forms.CharField(
 		label="Presentation",
 		help_text="Vertex / Breech / other",
-		required=False,
+		required=False
 		)
 	laborLength = forms.CharField(
 		label="Labor Length",
-                help_text="Time (HH:MM)",
-		required=True,
+                help_text="Time 'HH:MM'",
+		required=True
 		)
 	complications = forms.CharField(
 		label="Complications",
@@ -541,7 +542,7 @@ class NewPregnancyForm(forms.Form):
 	referral = forms.CharField(
 		label="Referral",
                 help_text="Optional: Referral to outside Doctor/Hospital/Specialist",
-		required=False,
+		required=False
 		)
 	referralOutcome = forms.CharField(
 		label="Referral Outcome",
@@ -549,11 +550,11 @@ class NewPregnancyForm(forms.Form):
 		required=False,
                 widget=forms.Textarea
 		)
-	postpartumFollowUp = forms.ChoiceField(
+	postpartumFollowUp = forms.NullBooleanField(
 		label="PP Follow Up",
                 help_text="Did mom get the recommended care after delivery?",
-		required=True,
-                choices=Pregnancy.BOOL_CHOICES,
+		required=False,
+                widget=forms.NullBooleanSelect
 		)
 	postpartumComplications = forms.CharField(
 		label="PP Complications",
@@ -561,23 +562,22 @@ class NewPregnancyForm(forms.Form):
 		required=False,
                 widget=forms.Textarea
 		)
-	breastfeedingProblems = forms.ChoiceField(
+	breastfeedingProblems = forms.NullBooleanField(
                 label="Breastfeeding Problems",
-                required=True,
-                initial=False,
-                choices=Pregnancy.BOOL_CHOICES,
+                required=False,
+                widget=forms.NullBooleanSelect
                 )
-	pmtct = forms.ChoiceField(
+	pmtct = forms.NullBooleanField(
                 label="PMTCT",
                 help_text="HIV prophylaxis given during pregnancy",
-                required=True,
-                choices=Pregnancy.BOOL_CHOICES,
+                required=False,
+                widget=forms.NullBooleanSelect
                 )
 	tetanusBoosterDate = forms.DateTimeField(
 		label="Tetanus Toxoid",
                 help_text="Optional: Date of TT Booster",
 		required=False,
-                widget=widgets.DateTimeWidget
+                widget=widgets.CalendarWidget
 		)
 
 	def __init__(self, patient, user, *args, **kwargs):
