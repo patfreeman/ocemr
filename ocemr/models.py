@@ -426,10 +426,6 @@ class LabNote(models.Model):
 	note = models.TextField(default="")
 
 class Pregnancy(models.Model):
-	BOOL_CHOICES = (
-		(True, 'Yes'),
-		(False, 'No'),
-	)
 	GENDER_CHOICES = (
 		('M', 'Male'),
 		('F', 'Female'),
@@ -441,7 +437,7 @@ class Pregnancy(models.Model):
 		('FAVD', 'Forceps Assisted Vaginal Delivery'),
 	)
 	patient = models.ForeignKey(Patient)
-	deliveryDate = models.DateTimeField()
+	deliveryDate = models.DateTimeField(default=datetime.datetime.now)
 	gestationalAge = models.IntegerField(default=40)
 	gestationalAgePlusDays = models.IntegerField(default=0)
 	deliveryMode = models.CharField(max_length=4, choices=PREGNANCY_DELIVERY_MODES, default='NVD')
@@ -451,10 +447,10 @@ class Pregnancy(models.Model):
 	complications = models.TextField(default="")
 	referral =  models.CharField(max_length=128, default="")
 	referralOutcome = models.TextField(default="")
-	postpartumFollowUp = models.BooleanField(default=True, choices=BOOL_CHOICES)
+	postpartumFollowUp = models.NullBooleanField(default=None, null=True)
 	postpartumComplications = models.TextField(default="")
-	breastfeedingProblems = models.BooleanField(default=False, choices=BOOL_CHOICES)
-	pmtct = models.BooleanField(default=True, choices=BOOL_CHOICES)
+	breastfeedingProblems = models.NullBooleanField(default=None, null=True)
+	pmtct = models.NullBooleanField(default=None, null=True)
 	tetanusBoosterDate = models.DateTimeField(blank=True, null=True)
 	addedDateTime = models.DateTimeField(default=datetime.datetime.now)
 	addedBy = models.ForeignKey(User)

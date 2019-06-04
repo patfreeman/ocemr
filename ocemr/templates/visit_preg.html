@@ -6,7 +6,7 @@
 Pregnancy History
 <P>
 <TABLE>
-    <TR><TH><TH>Date of<TH>Gest<TH>Mode of<TH>Gender<TH>Presentation<TH>Length<TH>Complications<TH>Referral<TH>Referral<TH>PP<TH>PP<TH>Brestfeeding<TH>PMTCT<TH>Tetanus</TR>
+    <TR><TH><TH>Date of<TH>Gest<TH>Mode of<TH>Gender<TH>Presentation<TH>Length<TH>Complications<TH>Referral<TH>Referral<TH>PP<TH>PP<TH>Breastfeeding<TH>PMTCT<TH>Tetanus</TR>
     <TR><TH>#<TH>Delivery<TH>Age<TH>Delivery<TH><TH><TH>of Labor<TH><TH><TH>Outcome<TH>F/U<TH>Comp<TH>Problems<TH><TH>Booster</TR>
 {% for pr in pregnancy %}
 <TR>
@@ -24,11 +24,11 @@ Pregnancy History
    <TD>{{ pr.complications }}
    <TD>{{ pr.referral }}
    <TD>{{ pr.referralOutcome }}
-   <TD>{{ pr.postpartumFollowUp | yesno:"Yes,No" }}
+   <TD>{{ pr.postpartumFollowUp | yesno:"Yes,No,Unknown" }}
    <TD>{{ pr.postpartumComplications }}
-   <TD>{{ pr.breastfeedingProblems | yesno:"Yes,No" }}
-   <TD>{{ pr.pmtct | yesno:"Yes,No" }}
-   <TD>{{ pr.tetanusBoosterDate | date:"Y-m-d" }}</A>
+   <TD>{{ pr.breastfeedingProblems | yesno:"Yes,No,Unknown" }}
+   <TD>{{ pr.pmtct | yesno:"Yes,No,Unknown" }}
+   <TD>{{ pr.tetanusBoosterDate | date:"m/d/Y" }}</A>
 </TR>
 {% endfor %}
 </TABLE>
