@@ -717,7 +717,7 @@
             _createTimePicker = function (viewmode) {
                 var $table = $('<table cellspacing = "0" cellpadding = "0" class="tt"/>');
                 var $tbody = $('<tbody>').appendTo($table);
-                $table.$h = $('<input type="number" min="0" max="23" maxlength="2"/>').data('time', 'h').change(function () {
+                $table.$h = $('<input type="number" min="0" max="23" maxlength="2"/>').data('time', 'h').on("change", function () {
                     var value = parseInt(this.value, 10);
                     var hours = clampNumber(value, 0, 23);
                     // Replace the value if it has not been not a valid number
@@ -728,10 +728,10 @@
                     _setSelectedDate(displayDate);
                     // populate other time fields if no date has been selected before
                     _loadTimeData($timetable, displayDate);
-                }).focus(function () {
+                }).on("focus",function () {
                     $table.focus = $(this);
                 });
-                $table.$m = $('<input type="number" min="0" max="59" maxlength="2"/>').data('time', 'm').change(function () {
+                $table.$m = $('<input type="number" min="0" max="59" maxlength="2"/>').data('time', 'm').on("change", function () {
                     var value = parseInt(this.value, 10);
                     var minutes = clampNumber(value, 0, 59);
                     // Replace the value if it has not been not a valid number
@@ -742,10 +742,10 @@
                     _setSelectedDate(displayDate);
                     // populate other time fields if no date has been selected before
                     _loadTimeData($timetable, displayDate);
-                }).focus(function () {
+                }).on("focus",function () {
                     $table.focus = $(this);
                 });
-                $table.$s = $('<input type="number" min="0" max="59" maxlength="2"/>').data('time', 's').change(function () {
+                $table.$s = $('<input type="number" min="0" max="59" maxlength="2"/>').data('time', 's').on("change", function () {
                     var value = parseInt(this.value, 10);
                     var seconds = clampNumber(value, 0, 59);
                     // Replace the value if it has not been not a valid number
@@ -756,7 +756,7 @@
                     _setSelectedDate(displayDate);
                     // populate other time fields if no date has been selected before
                     _loadTimeData($timetable, displayDate);
-                }).focus(function () {
+                }).on("focus",function () {
                     $table.focus = $(this);
                 });
                 $table.focus = $table.$m;
@@ -968,11 +968,11 @@
                         $target.removeClass('hover');
                     }
                 };
-                $el.unbind();
-                $el.bind("mousedown", proxy)
-                    .bind("mouseover", proxy)
-                    .bind("mouseup", proxy)
-                    .bind("mouseout", proxy);
+                $el.off();
+                $el.on("mousedown", proxy)
+                    .on("mouseover", proxy)
+                    .on("mouseup", proxy)
+                    .on("mouseout", proxy);
             };
 
         //initialize all panels
