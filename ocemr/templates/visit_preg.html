@@ -1,13 +1,11 @@
 {% extends "base_visit.html" %}
 {% block visitExtrahead %}
+<link href="/media/ocemr/css/visit_preg.css" rel="stylesheet" />
 {% endblock %}
 {% block visitContent %}
-<DIV ID=pregTable>
-Pregnancy History
-<P>
+<DIV ID=pregnancies>
 <TABLE>
-    <TR><TH><TH>Date of<TH>Gest<TH>Mode of<TH>Gender<TH>Presentation<TH>Length<TH>Complications<TH>Referral<TH>Referral<TH>PP<TH>PP<TH>Breastfeeding<TH>PMTCT<TH>Tetanus</TR>
-    <TR><TH>#<TH>Delivery<TH>Age<TH>Delivery<TH><TH><TH>of Labor<TH><TH><TH>Outcome<TH>F/U<TH>Comp<TH>Problems<TH><TH>Booster</TR>
+    <TR><TH><TH>Date of&nbsp;Delivery<TH>Gest&nbsp;Age<TH>Mode of&nbsp;Delivery<TH>Gender<TH>Presentation<TH>Length&nbsp;of Labor<TH>Complications<TH>Referral<TH>Referral&nbsp;Outcome<TH>PP&nbsp;F/U<TH>PP&nbsp;Comp<TH>Breastfeeding&nbsp;Problems<TH>PMTCT<TH>Tetanus&nbsp;Booster</TR>
 {% for pr in pregnancy %}
 <TR>
         <TD><A HREF="#" " onClick='window.open("/visit/{{v.id}}/preg/edit/{{pr.id}}","Update Pregnancy","menubar=no,width=540,height=540,toolbar=no,scrollbars=yes");'>{{ forloop.counter }}

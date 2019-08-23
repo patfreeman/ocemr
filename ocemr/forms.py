@@ -511,6 +511,7 @@ class NewPregnancyForm(forms.Form):
                 help_text="Optional: Days to add to Weeks Gestational Age",
                 min_value=0,
                 max_value=6,
+                initial=0,
 		required=False
                 )
 	deliveryMode = forms.ChoiceField(
