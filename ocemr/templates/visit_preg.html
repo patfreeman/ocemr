@@ -5,7 +5,7 @@
 {% block visitContent %}
 <DIV ID=pregnancies>
 <TABLE>
-    <TR><TH><TH>Date of&nbsp;Delivery<TH>Gest&nbsp;Age<TH>Mode of&nbsp;Delivery<TH>Gender<TH>Presentation<TH>Length&nbsp;of Labor<TH>Complications<TH>Referral<TH>Referral&nbsp;Outcome<TH>PP&nbsp;F/U<TH>PP&nbsp;Comp<TH>Breastfeeding&nbsp;Problems<TH>PMTCT<TH>Tetanus&nbsp;Booster</TR>
+    <TR><TH><TH>Date of<BR>Delivery<TH>Gest<BR>Age<TH>Mode of<BR>Delivery<TH>Gender<TH>Presentation<TH>Length<BR>of Labor<TH>Complications<TH>Referral<TH>Referral<BR>Outcome<TH>PP<BR>F/U<TH>PP<BR>Comp<TH>Breastfeeding<BR>Problems<TH>PMTCT<TH>Tetanus<BR>Booster</TR>
 {% for pr in pregnancy %}
 <TR>
         <TD><A HREF="#" " onClick='window.open("/visit/{{v.id}}/preg/edit/{{pr.id}}","Update Pregnancy","menubar=no,width=540,height=540,toolbar=no,scrollbars=yes");'>{{ forloop.counter }}
@@ -19,11 +19,11 @@
        {% endifequal %}
    <TD>{{ pr.presentation }}
    <TD>{{ pr.laborLength }}
-   <TD>{{ pr.complications }}
+   <TD><PRE>{{ pr.complications }}</PRE>
    <TD>{{ pr.referral }}
-   <TD>{{ pr.referralOutcome }}
+   <TD><PRE>{{ pr.referralOutcome }}</PRE>
    <TD>{{ pr.postpartumFollowUp | yesno:"Yes,No,Unknown" }}
-   <TD>{{ pr.postpartumComplications }}
+   <TD><PRE>{{ pr.postpartumComplications }}</PRE>
    <TD>{{ pr.breastfeedingProblems | yesno:"Yes,No,Unknown" }}
    <TD>{{ pr.pmtct | yesno:"Yes,No,Unknown" }}
    <TD>{{ pr.tetanusBoosterDate | date:"m/d/Y" }}</A>
