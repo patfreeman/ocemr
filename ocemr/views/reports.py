@@ -675,15 +675,12 @@ def accounts_outstanding(request):
 	dt_start = datetime(date_start_in.year,date_start_in.month,date_start_in.day,0,0,0)
 	dt_end = datetime(date_end_in.year,date_end_in.month,date_end_in.day,23,59,59)
 	summary_rows=[]
-	for p in Patient.objects.all(  ):
-		billed=0
-		collected=0
-		for v in Visit.objects.filter(patient=p,finishedDateTime__gte=dt_start,finishedDateTime__lte=dt_end):
-			billed += v.cost
-			for c in CashLog.objects.filter(visit=v):
-				collected += c.amount
-		if collected < billed:
-			summary_rows.append({'patient': p, 'billed': billed, 'collected':collected, 'owed':billed-collected})
+	for v in Visit.objects.filter(finishedDateTime__gte=dt_start,finishedDateTime__lte=dt_end):
+	    collected=0
+	    for c in CashLog.objects.filter(visit=v):
+	        collected += c.amount
+            if collected < v.cost:
+	        summary_rows.append({'patient': v.patient, 'billed': v.cost, 'collected':collected, 'owed':billed-collected})
 	return dump_csv( "outstanding_accounts-%s-%s.csv"%(date_start_in.strftime("%Y%m%d"), date_end_in.strftime("%Y%m%d")),field_names, headers, summary_rows )
 
 @login_required
