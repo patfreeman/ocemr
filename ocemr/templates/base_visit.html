@@ -25,6 +25,14 @@
       <LI><SPAN ID=problemlistIna>{{dt.title}}</SPAN></LI>
     {% endfor %}
   </UL>
+  Med List:
+  <UL>
+    {% for v in v.get_visits %}
+      {% for m in v.get_meds %}
+      <LI><SPAN ID=medlist><a href=/visit/{{v.id}}/meds/>{{m.type.title}} {{v.scheduledDate}}</a></SPAN></LI>
+      {% endfor %}
+    {% endfor %}
+  </UL>
 </DIV> <!-- problemList -->
 <DIV ID="visitContent">
   <ul class="menuTabs">

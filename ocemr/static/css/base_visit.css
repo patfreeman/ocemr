@@ -42,7 +42,6 @@
 	list-style-type: none;
 	margin-left: 0;
 	padding-left: 0;
-
 }
 #problemlistAct
 {
@@ -51,8 +50,17 @@
 #problemlistIna
 {
 	font-size: .70em;
-	
 }
+#medList ul {
+	list-style-type: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+#medlist
+{
+	font-size: .80em;
+}
+
 #visitContent
 {
 	width: 85%;

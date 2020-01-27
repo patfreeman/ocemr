@@ -306,10 +306,16 @@ class Visit(models.Model):
 		from models import CashLog
 		total = float(0)
 		return CashLog.objects.filter(visit=self)
+
+	def get_visits(self):
+		from models import Visit
+		return Visit.objects.filter(patient=self.patient).order_by('-scheduledDate')
+
 	def get_past_visits(self):
 		from models import Visit
 		past_visits = Visit.objects.filter(patient=self.patient).exclude(pk=self.id).order_by('-scheduledDate')
 		return past_visits
+
 	def get_summary_text(self):
 		"""
 		return a text summary of the Visit
