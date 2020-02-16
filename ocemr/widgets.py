@@ -100,7 +100,7 @@ class JQueryAutoContains(forms.TextInput):
 		For available options see the autocomplete sample page::
 		http://jquery.bassistance.de/autocomplete/"""
 
-                self.options = {'source': source, 'matchContains': 'true', 'minLength': '2', 'max': '64'}
+		self.options = {'source': source, 'matchContains': 'true', 'minLength': '2', 'max': '64'}
 		self.attrs = {'autocomplete': 'off'}
 		self.source = source
 		if len(options) > 0:
