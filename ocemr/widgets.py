@@ -112,7 +112,7 @@ class JQueryAutoContains(forms.TextInput):
 		if isinstance(self.source, list):
 			source = JSONEncoder().encode(self.source)
 		elif isinstance(self.source, str):
-                    source = "source: '%s'" % escape(self.source)
+			source = "source: '%s'" % escape(self.source)
 		else:
 			raise ValueError('source type is not valid')
 		
