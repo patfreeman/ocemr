@@ -17,7 +17,7 @@
 #
 #
 #########################################################################
-#       Copyright 2011 Philip Freeman <philip.freeman@gmail.com>
+#       Copyright 2018 Pat Freeman <github@e2r4.com>
 ##########################################################################
 
 from django.contrib.auth.decorators import login_required

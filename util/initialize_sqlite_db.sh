@@ -20,6 +20,7 @@
 #
 #########################################################################
 #       Copyright 2011-8 Philip Freeman <elektron@halo.nu>
+#       Copyright 2018 Pat Freeman <github@e2r4.com>
 ##########################################################################
 VAR=/var/lib/ocemr
 APP_DIR=/usr/share/ocemr/apps
