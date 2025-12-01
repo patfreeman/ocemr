@@ -9,28 +9,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ocemr', '0003_pregnancy'),
+        ("ocemr", "0003_pregnancy"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='pregnancy',
-            name='breastfeedingProblems',
+            model_name="pregnancy",
+            name="breastfeedingProblems",
             field=models.NullBooleanField(default=None),
         ),
         migrations.AlterField(
-            model_name='pregnancy',
-            name='deliveryDate',
+            model_name="pregnancy",
+            name="deliveryDate",
             field=models.DateTimeField(default=datetime.datetime.now),
         ),
         migrations.AlterField(
-            model_name='pregnancy',
-            name='pmtct',
+            model_name="pregnancy",
+            name="pmtct",
             field=models.NullBooleanField(default=None),
         ),
         migrations.AlterField(
-            model_name='pregnancy',
-            name='postpartumFollowUp',
+            model_name="pregnancy",
+            name="postpartumFollowUp",
             field=models.NullBooleanField(default=None),
         ),
     ]

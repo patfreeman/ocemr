@@ -31,15 +31,18 @@
 import sys, re
 
 import util_conf
+
 sys.path = [util_conf.APP_PATH] + sys.path
 
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ocemr.settings")
 
 import django
+
 django.setup()
 
-#from ocemr.models import ###
+# from ocemr.models import ###
 from ocemr.models import Patient
 from ocemr.models import Visit
 
@@ -49,6 +52,6 @@ from datetime import datetime
 patient_visit_count = {}
 for p in Patient.objects.all():
     patient_visit_count[p] = 0
-    for v in Visit.objects.filter(Q(status='RESO')).filter(patient=p):
+    for v in Visit.objects.filter(Q(status="RESO")).filter(patient=p):
         patient_visit_count[p] += 1
     print "%d %s" % (patient_visit_count[p], p)

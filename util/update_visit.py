@@ -30,24 +30,36 @@
 import sys, re
 
 import util_conf
+
 sys.path = [util_conf.APP_PATH] + sys.path
 
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ocemr.settings")
 
 import django
+
 django.setup()
 
-#from ocemr.models import ###
+# from ocemr.models import ###
 from ocemr.models import Visit
 from ocemr.models import User
 
 from django.db.models import get_model, Q
 from datetime import datetime
+
 visits = Visit.objects.filter(
-    Q(status='RESO') & (Q(seenDateTime=None) | Q(claimedDateTime=None) | Q(
-        finishedDateTime=None) | Q(resolvedDateTime=None) | Q(claimedBy=None)
-                        | Q(finishedBy=None) | Q(resolvedBy=None)))
+    Q(status="RESO")
+    & (
+        Q(seenDateTime=None)
+        | Q(claimedDateTime=None)
+        | Q(finishedDateTime=None)
+        | Q(resolvedDateTime=None)
+        | Q(claimedBy=None)
+        | Q(finishedBy=None)
+        | Q(resolvedBy=None)
+    )
+)
 u = User.objects.get(pk=1)
 
 for v in visits:

@@ -8,44 +8,52 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ocemr', '0001_initial'),
+        ("ocemr", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='immunizationlog',
-            name='addedBy',
+            model_name="immunizationlog",
+            name="addedBy",
         ),
         migrations.RemoveField(
-            model_name='immunizationlog',
-            name='patient',
+            model_name="immunizationlog",
+            name="patient",
         ),
         migrations.RemoveField(
-            model_name='vac',
-            name='addedBy',
+            model_name="vac",
+            name="addedBy",
         ),
         migrations.RemoveField(
-            model_name='vac',
-            name='patient',
+            model_name="vac",
+            name="patient",
         ),
         migrations.RemoveField(
-            model_name='vac',
-            name='type',
+            model_name="vac",
+            name="type",
         ),
         migrations.RemoveField(
-            model_name='vacnote',
-            name='addedBy',
+            model_name="vacnote",
+            name="addedBy",
         ),
         migrations.RemoveField(
-            model_name='vacnote',
-            name='patient',
+            model_name="vacnote",
+            name="patient",
         ),
         migrations.RemoveField(
-            model_name='vacnote',
-            name='type',
+            model_name="vacnote",
+            name="type",
         ),
-        migrations.DeleteModel(name='ImmunizationLog', ),
-        migrations.DeleteModel(name='Vac', ),
-        migrations.DeleteModel(name='VacNote', ),
-        migrations.DeleteModel(name='VacType', ),
+        migrations.DeleteModel(
+            name="ImmunizationLog",
+        ),
+        migrations.DeleteModel(
+            name="Vac",
+        ),
+        migrations.DeleteModel(
+            name="VacNote",
+        ),
+        migrations.DeleteModel(
+            name="VacType",
+        ),
     ]

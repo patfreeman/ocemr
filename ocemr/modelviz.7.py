@@ -50,8 +50,7 @@ else:
 from django.template import Template, Context
 from django.db import models
 from django.db.models import get_models
-from django.db.models.fields.related import \
-    ForeignKey, OneToOneField, ManyToManyField
+from django.db.models.fields.related import ForeignKey, OneToOneField, ManyToManyField
 
 try:
     from django.db.models.fields.generic import GenericRelation
@@ -118,39 +117,44 @@ tail_template = """
 
 
 def generate_dot(app_labels, **kwargs):
-    disable_fields = kwargs.get('disable_fields', False)
-    include_models = kwargs.get('include_models', [])
-    exclude_models = kwargs.get('exclude_models', [])
+    disable_fields = kwargs.get("disable_fields", False)
+    include_models = kwargs.get("include_models", [])
+    exclude_models = kwargs.get("exclude_models", [])
 
     dot = head_template
 
     for app_label in app_labels:
         app = models.get_app(app_label)
-        graph = Context({
-            'name': '"%s"' % app.__name__,
-            'disable_fields': disable_fields,
-            'models': []
-        })
+        graph = Context(
+            {
+                "name": '"%s"' % app.__name__,
+                "disable_fields": disable_fields,
+                "models": [],
+            }
+        )
 
         for appmodel in get_models(app):
 
             # consider given model name ?
             def consider(model_name):
-                return (not include_models or model_name in include_models
-                        ) and (not model_name in exclude_models)
+                return (not include_models or model_name in include_models) and (
+                    not model_name in exclude_models
+                )
 
             if not consider(appmodel._meta.object_name):
                 continue
 
-            model = {'name': appmodel.__name__, 'fields': [], 'relations': []}
+            model = {"name": appmodel.__name__, "fields": [], "relations": []}
 
             # model attributes
             def add_attributes():
-                model['fields'].append({
-                    'name': field.name,
-                    'type': type(field).__name__,
-                    'blank': field.blank
-                })
+                model["fields"].append(
+                    {
+                        "name": field.name,
+                        "type": type(field).__name__,
+                        "blank": field.blank,
+                    }
+                )
 
             for field in appmodel._meta.fields:
                 add_attributes()
@@ -162,13 +166,13 @@ def generate_dot(app_labels, **kwargs):
             # relations
             def add_relation(extras=""):
                 _rel = {
-                    'target': field.rel.to.__name__,
-                    'type': type(field).__name__,
-                    'name': field.name,
-                    'arrows': extras
+                    "target": field.rel.to.__name__,
+                    "type": type(field).__name__,
+                    "name": field.name,
+                    "arrows": extras,
                 }
-                if _rel not in model['relations'] and consider(_rel['target']):
-                    model['relations'].append(_rel)
+                if _rel not in model["relations"] and consider(_rel["target"]):
+                    model["relations"].append(_rel)
 
             for field in appmodel._meta.fields:
                 if isinstance(field, ForeignKey):
@@ -184,12 +188,12 @@ def generate_dot(app_labels, **kwargs):
                         add_relation(
                             '[style="dotted"] [arrowhead=normal arrowtail=normal]'
                         )
-            graph['models'].append(model)
+            graph["models"].append(model)
 
         t = Template(body_template)
-        dot += '\n' + t.render(graph)
+        dot += "\n" + t.render(graph)
 
-    dot += '\n' + tail_template
+    dot += "\n" + tail_template
 
     return dot
 
@@ -197,8 +201,10 @@ def generate_dot(app_labels, **kwargs):
 def main():
     try:
         opts, args = getopt.getopt(
-            sys.argv[1:], "hdi:e:",
-            ["help", "disable_fields", "include_models=", "exclude_models="])
+            sys.argv[1:],
+            "hdi:e:",
+            ["help", "disable_fields", "include_models=", "exclude_models="],
+        )
     except getopt.GetoptError, error:
         print __doc__
         sys.exit(error)
@@ -213,11 +219,11 @@ def main():
             print __doc__
             sys.exit()
         if opt in ("-d", "--disable_fields"):
-            kwargs['disable_fields'] = True
+            kwargs["disable_fields"] = True
         if opt in ("-i", "--include_models"):
-            kwargs['include_models'] = arg.split(',')
+            kwargs["include_models"] = arg.split(",")
         if opt in ("-e", "--exclude_models"):
-            kwargs['exclude_models'] = arg.split(',')
+            kwargs["exclude_models"] = arg.split(",")
     print generate_dot(args, **kwargs)
 
 

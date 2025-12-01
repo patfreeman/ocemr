@@ -12,21 +12,24 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('ocemr', '0004_preganacy_updates'),
+        ("ocemr", "0004_preganacy_updates"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CustomizedTextField',
+            name="CustomizedTextField",
             fields=[
-                ('id',
-                 models.AutoField(
-                     auto_created=True,
-                     primary_key=True,
-                     serialize=False,
-                     verbose_name='ID')),
-                ('fieldName', models.CharField(max_length=64)),
-                ('content', models.TextField(default=b'')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("fieldName", models.CharField(max_length=64)),
+                ("content", models.TextField(default=b"")),
             ],
         ),
     ]
