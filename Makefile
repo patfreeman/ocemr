@@ -34,3 +34,6 @@ pkgtest:
 	lintian ../ocemr_*_all.deb
 pkgclean:
 	fakeroot ./debian/rules clean
+
+fmt:
+	black -t py27 *.py ocemr package_configs util 

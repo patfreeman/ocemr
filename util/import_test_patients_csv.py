@@ -24,17 +24,20 @@
 import sys, csv, re
 
 import util_conf
+
 sys.path = [util_conf.APP_PATH] + sys.path
 
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ocemr.settings")
 
 import django
+
 django.setup()
 
 from django.conf import settings
 
-#from ocemr.models import ###
+# from ocemr.models import ###
 from ocemr.models import Patient, Village, Visit
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
@@ -42,15 +45,21 @@ import random
 
 reader = csv.reader(
     open(
-        "%s/source_data/%s/OcemrTestPatients.csv" %
-        (settings.CONTRIB_PATH, util_conf.SOURCE_TEMPLATE), "rb"))
+        "%s/source_data/%s/OcemrTestPatients.csv"
+        % (settings.CONTRIB_PATH, util_conf.SOURCE_TEMPLATE),
+        "rb",
+    )
+)
 
 u = User.objects.get(pk=1)
 
 for row in reader:
-    if row[0] == "Family Name": continue
-    if len(row) < 6: continue
-    if row[5] == "": continue
+    if row[0] == "Family Name":
+        continue
+    if len(row) < 6:
+        continue
+    if row[5] == "":
+        continue
     f_name = row[0]
     g_name = row[1]
     m_name = row[2]
@@ -69,7 +78,8 @@ for row in reader:
         gender=gender,
         birthYear=byear,
         village=v,
-        createdBy=u)
+        createdBy=u,
+    )
     if is_new:
         print "{NEW} ",
         p.save()

@@ -34,22 +34,23 @@ class Command(BaseCommand):
     help = "check database for inconsistencies and optionally clean them up where possible."
     option_list = BaseCommand.option_list + (
         make_option(
-            '--force',
-            action='store_true',
-            dest='force',
+            "--force",
+            action="store_true",
+            dest="force",
             default=False,
-            help='Don\'t ask just do'),
+            help="Don't ask just do",
+        ),
         make_option(
-            '--dry-run',
-            action='store_true',
-            dest='dry-run',
+            "--dry-run",
+            action="store_true",
+            dest="dry-run",
             default=False,
-            help='Don\'t do just print'),
+            help="Don't do just print",
+        ),
     )
 
     def ask_do(self, question, default=True):
-        """promt the user to see if we should do something...
-		"""
+        """promt the user to see if we should do something..."""
         if self.OPT_FORCE:
             print "Forced: %s" % (question)
             if self.OPT_DRY:
@@ -57,20 +58,22 @@ class Command(BaseCommand):
             else:
                 return True
 
-        if default: choices = "Y/n"
-        else: choices = "y/N"
+        if default:
+            choices = "Y/n"
+        else:
+            choices = "y/N"
 
         while True:
             print "%s (%s)" % (question, choices),
             answer = sys.stdin.readline()
-            if answer[0].lower() == '\n':
+            if answer[0].lower() == "\n":
                 return default
-            if answer[0].lower() == 'y':
+            if answer[0].lower() == "y":
                 if dry_run:
                     return False
                 else:
                     return True
-            if answer[0].lower() == 'n':
+            if answer[0].lower() == "n":
                 return False
             print "invalid answer '%s', use %s" % (answer.strip(), choices)
 
@@ -78,13 +81,13 @@ class Command(BaseCommand):
         from django.db import connection
         from django.conf import settings
 
-        self.OPT_FORCE = options['force']
-        self.OPT_DRY = options['dry-run']
+        self.OPT_FORCE = options["force"]
+        self.OPT_DRY = options["dry-run"]
 
         # Scan Tables
         # ==== ======
         #  First Stage is to scan the tables in the database and
-        #find inconsistencies
+        # find inconsistencies
 
         print "\nStage One: Scanning Tables\n===== ==== ======== ======\n"
 
@@ -155,7 +158,8 @@ class Command(BaseCommand):
         if num_diagnosis_orphan_from_visits > 0:
 
             print "Found %d orphan diagnosis records from missing visits." % (
-                num_diagnosis_orphan_from_visits)
+                num_diagnosis_orphan_from_visits
+            )
             for i in ids_no_visit:
 
                 d = Diagnosis.objects.get(pk=i)
@@ -170,7 +174,8 @@ class Command(BaseCommand):
         if num_diagnosis_orphan_from_diagnosis_type > 0:
 
             print "Found %d orphan diagnosis records from missing types." % (
-                num_diagnosis_orphan_from_diagnosis_type)
+                num_diagnosis_orphan_from_diagnosis_type
+            )
             for i in ids_no_diagnosis_type:
 
                 d = Diagnosis.objects.get(pk=i)
@@ -192,8 +197,7 @@ class Command(BaseCommand):
 
         if num_duplicate_diagnosis > 0:
 
-            print "Found %d duplicate diagnosis keys" % (
-                num_duplicate_diagnosis)
+            print "Found %d duplicate diagnosis keys" % (num_duplicate_diagnosis)
             for k in keys_visit_type.keys():
 
                 d_primary = None

@@ -24,29 +24,39 @@
 import sys, csv, re
 
 import util_conf
+
 sys.path = [util_conf.APP_PATH] + sys.path
 
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ocemr.settings")
 
 import django
+
 django.setup()
 
 from django.conf import settings
 
-#from ocemr.models import ###
+# from ocemr.models import ###
 from ocemr.models import VitalType
 
 import datetime
+
 reader = csv.reader(
     open(
-        "%s/source_data/%s/OcemrVitalTypes.csv" %
-        (settings.CONTRIB_PATH, util_conf.SOURCE_TEMPLATE), "rb"))
+        "%s/source_data/%s/OcemrVitalTypes.csv"
+        % (settings.CONTRIB_PATH, util_conf.SOURCE_TEMPLATE),
+        "rb",
+    )
+)
 
 for row in reader:
-    if row[0] == "title": continue
-    if len(row) < 4: continue
-    if row[3] == "": continue
+    if row[0] == "title":
+        continue
+    if len(row) < 4:
+        continue
+    if row[3] == "":
+        continue
     title = row[0]
     unit = row[1]
     minValue = float(row[2])

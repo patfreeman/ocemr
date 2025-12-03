@@ -20,8 +20,10 @@ jobs:
 
     - run: |
         apt-get update
-        apt-get install -y yapf
+        apt-get install -y python3-pip
+        pip3 install black==21.12b0 click==8.0.2
       env:
         DEBIAN_FRONTEND: noninteractive
 
-    - run: yapf --diff --verbose --recursive --style pep8 ocemr util manage.py
+    - run: |
+        black -t py27 --check .

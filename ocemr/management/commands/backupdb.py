@@ -11,69 +11,70 @@ class Command(BaseCommand):
     help = "Backup database. Only Mysql and sqlite engines are implemented"
 
     def add_arguments(self, parser):
-        parser.add_argument('filename', nargs='?')
+        parser.add_argument("filename", nargs="?")
 
     def handle(self, *args, **options):
         from django.db import connection
         from django.conf import settings
 
         self.var_path = settings.VAR_PATH
-        self.engine = settings.DATABASES['default']['ENGINE'].split(".")[-1]
-        self.db = settings.DATABASES['default']['NAME']
-        self.user = settings.DATABASES['default']['USER']
-        self.passwd = settings.DATABASES['default']['PASSWORD']
-        self.host = settings.DATABASES['default']['HOST']
-        self.port = settings.DATABASES['default']['PORT']
+        self.engine = settings.DATABASES["default"]["ENGINE"].split(".")[-1]
+        self.db = settings.DATABASES["default"]["NAME"]
+        self.user = settings.DATABASES["default"]["USER"]
+        self.passwd = settings.DATABASES["default"]["PASSWORD"]
+        self.host = settings.DATABASES["default"]["HOST"]
+        self.port = settings.DATABASES["default"]["PORT"]
 
         self.encrypt = settings.DB_BACKUP_ENCRYPT
         self.encrypt_to = settings.DB_BACKUP_ENCRYPT_TO
 
-        if 'filename' in options and options['filename'] != None:
-            outfile = options['filename']
+        if "filename" in options and options["filename"] != None:
+            outfile = options["filename"]
         else:
-            backup_dir = '%s/backups' % (self.var_path)
+            backup_dir = "%s/backups" % (self.var_path)
             if not os.path.exists(backup_dir):
                 os.makedirs(backup_dir)
             outfile = os.path.join(
                 backup_dir,
-                'backup_%s.%s' % (time.strftime('%y%m%d-%H%M%S'), self.engine))
+                "backup_%s.%s" % (time.strftime("%y%m%d-%H%M%S"), self.engine),
+            )
 
-        if self.engine == 'mysql':
-            self.stdout.write('Doing Mysql backup to database %s into %s' %
-                              (self.db, outfile))
+        if self.engine == "mysql":
+            self.stdout.write(
+                "Doing Mysql backup to database %s into %s" % (self.db, outfile)
+            )
             self.do_mysql_backup(outfile)
-        #elif self.engine in ('postgresql_psycopg2', 'postgresql'):
+        # elif self.engine in ('postgresql_psycopg2', 'postgresql'):
         #    self.stdout.write('Doing Postgresql backup to database %s into %s' % (self.db, outfile))
         #    self.do_postgresql_backup(outfile)
-        elif self.engine == 'sqlite3':
-            self.stdout.write('Doing sqlite3 backup to database %s into %s' %
-                              (self.db, outfile))
+        elif self.engine == "sqlite3":
+            self.stdout.write(
+                "Doing sqlite3 backup to database %s into %s" % (self.db, outfile)
+            )
             self.do_sqlite3_backup(outfile)
         else:
-            self.stdout.write(
-                'Backup in %s engine not implemented' % self.engine)
-            raise Exception(
-                "backupdb: engine (%s) not implemented" % (self.engine))
+            self.stdout.write("Backup in %s engine not implemented" % self.engine)
+            raise Exception("backupdb: engine (%s) not implemented" % (self.engine))
 
         if self.encrypt:
-            self.stdout.write('Encrypting %s to %s %s.gpg' %
-                              (outfile, self.encrypt_to, outfile))
+            self.stdout.write(
+                "Encrypting %s to %s %s.gpg" % (outfile, self.encrypt_to, outfile)
+            )
             self.do_encrypt_backup(outfile)
-            outfile = '%s.gpg' % (outfile)
+            outfile = "%s.gpg" % (outfile)
         else:
-            self.stdout.write('Compressing %s to %s.bz2' % (outfile, outfile))
+            self.stdout.write("Compressing %s to %s.bz2" % (outfile, outfile))
             self.do_compress_backup(outfile)
-            outfile = '%s.bz2' % (outfile)
-        self.stdout.write('Backup file is: %s' % (outfile))
+            outfile = "%s.bz2" % (outfile)
+        self.stdout.write("Backup file is: %s" % (outfile))
 
     def do_sqlite3_backup(self, outfile):
         args = [self.db, ".dump"]
 
-        cmd = 'sqlite3 %s > %s' % (' '.join(args), outfile)
+        cmd = "sqlite3 %s > %s" % (" ".join(args), outfile)
         exit_status = os.system(cmd)
         if exit_status != 0:
-            raise Exception(
-                "Dump command (%s) failed with %s." % (cmd, exit_status))
+            raise Exception("Dump command (%s) failed with %s." % (cmd, exit_status))
 
     def do_mysql_backup(self, outfile):
         args = []
@@ -91,11 +92,10 @@ class Command(BaseCommand):
 
         args += [self.db]
 
-        cmd = 'mysqldump %s > %s' % (' '.join(args), outfile)
+        cmd = "mysqldump %s > %s" % (" ".join(args), outfile)
         exit_status = os.system(cmd)
         if exit_status != 0:
-            raise Exception(
-                "Dump command (%s) failed with %s." % (cmd, exit_status))
+            raise Exception("Dump command (%s) failed with %s." % (cmd, exit_status))
 
     def do_postgresql_backup(self, outfile):
         args = []
@@ -110,38 +110,41 @@ class Command(BaseCommand):
         if self.db:
             args += [self.db]
         p = Popen(
-            "pg_dump %s > %s" % (' '.join(args), outfile),
+            "pg_dump %s > %s" % (" ".join(args), outfile),
             shell=True,
             stdin=PIPE,
             stdout=PIPE,
-            close_fds=True)
+            close_fds=True,
+        )
         if self.passwd:
-            p.stdin.write('%s\n' % self.passwd)
+            p.stdin.write("%s\n" % self.passwd)
         self.stdout.write(p.stdout.read())
 
     def do_compress_backup(self, outfile):
-        cmd = 'bzip2 -9 %s' % (outfile)
+        cmd = "bzip2 -9 %s" % (outfile)
         exit_status = os.system(cmd)
-        #This assumes you run unix (you do run unix, don't you?)
+        # This assumes you run unix (you do run unix, don't you?)
         if exit_status != 0:
-            raise Exception(
-                "Encrypt command (%s) failed with %s." % (cmd, exit_status))
+            raise Exception("Encrypt command (%s) failed with %s." % (cmd, exit_status))
 
     def do_encrypt_backup(self, outfile):
         args = [
-            "--encrypt", "--batch", "--yes", "--homedir",
-            "%s/gnupg" % (self.var_path), "--output",
-            "%s.gpg" % (outfile)
+            "--encrypt",
+            "--batch",
+            "--yes",
+            "--homedir",
+            "%s/gnupg" % (self.var_path),
+            "--output",
+            "%s.gpg" % (outfile),
         ]
         if len(self.encrypt_to) == 0:
             raise Exception("DB_BACKUP_ENCRYPT_TO empty (see settings.py)")
         for r in self.encrypt_to:
             args += ["--recipient", r]
         args += [outfile]
-        cmd = 'gpg %s' % (' '.join(args))
+        cmd = "gpg %s" % (" ".join(args))
         exit_status = os.system(cmd)
         os.unlink(outfile)
-        #This assumes you run unix (you do run unix, don't you?)
+        # This assumes you run unix (you do run unix, don't you?)
         if exit_status != 0:
-            raise Exception(
-                "Encrypt command (%s) failed with %s." % (cmd, exit_status))
+            raise Exception("Encrypt command (%s) failed with %s." % (cmd, exit_status))

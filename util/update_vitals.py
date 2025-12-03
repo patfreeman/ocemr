@@ -27,19 +27,22 @@
 # correct or clean it up.
 #
 # Temperature  - look for values outside the normal ranges and auto-
-#		convert them or delete them.
+# 		convert them or delete them.
 #
 #
 
 import sys, re
 
 import util_conf
+
 sys.path = [util_conf.APP_PATH] + sys.path
 
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ocemr.settings")
 
 import django
+
 django.setup()
 
 from ocemr.models import Vital
@@ -50,9 +53,9 @@ from datetime import datetime
 
 # Temperature
 for v in Vital.objects.filter(Q(type=VitalType.objects.get(id=3))):
-    if v.data > 45.:
+    if v.data > 45.0:
         print v,
         # do something
         print
 
-    #v.save()
+    # v.save()

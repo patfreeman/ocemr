@@ -28,4 +28,5 @@ register = template.Library()
 @register.simple_tag
 def get_version_tag():
     from ocemr.settings import OCEMR_VERSION
+
     return OCEMR_VERSION

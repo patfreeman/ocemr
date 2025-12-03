@@ -24,32 +24,41 @@
 import sys, csv, re
 
 import util_conf
+
 sys.path = [util_conf.APP_PATH] + sys.path
 
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ocemr.settings")
 
 import django
+
 django.setup()
 
 from django.conf import settings
 
-#from ocemr.models import ###
+# from ocemr.models import ###
 from ocemr.models import DiagnosisType
+
 reader = csv.reader(
     open(
-        "%s/source_data/%s/EngeyeEMRdx.csv" %
-        (settings.CONTRIB_PATH, util_conf.SOURCE_TEMPLATE), "rb"))
+        "%s/source_data/%s/EngeyeEMRdx.csv"
+        % (settings.CONTRIB_PATH, util_conf.SOURCE_TEMPLATE),
+        "rb",
+    )
+)
 
 for row in reader:
-    if row[0] == "icpc2code": continue
-    if len(row) < 3: continue
-    if row[2] == "": continue
+    if row[0] == "icpc2code":
+        continue
+    if len(row) < 3:
+        continue
+    if row[2] == "":
+        continue
     icpc2Code = row[0]
     title = row[2]
     print "[%s:%s] " % (icpc2Code, title),
-    dt, is_new = DiagnosisType.objects.get_or_create(
-        icpc2Code=icpc2Code, title=title)
+    dt, is_new = DiagnosisType.objects.get_or_create(icpc2Code=icpc2Code, title=title)
     if is_new:
         print "{NEW} ",
         dt.save()
