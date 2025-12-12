@@ -1,3 +1,17 @@
+ocemr (0.9.0) stable; urgency=medium
+
+  * replace unicode with ascii in csv dumps by @patfreeman
+  * fixes for setting up testing environment by @ph1l
+  * HMIS readjust attendance by @patfreeman
+  * format codebase to pep8 style; enforce formatting w/ GitHub Action by @ph1l
+  * Run format check for PRs and pushes that touch python files by @ph1l
+  * Convert to black from yapf by @patfreeman
+  * sync dev db from production by @patfreeman
+  * HMIS Sept 2019 version (part 1) by @patfreeman
+  * Align database to model for CustomizedTextField by @patfreeman
+
+ -- Philip J Freeman <elektron@halo.nu>  Fri, 12 Dec 2025 11:45:06 -0800
+
 ocemr (0.8.2) stable; urgency=medium
 
   * remove old jquery lib [6b029ec]
