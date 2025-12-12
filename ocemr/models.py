@@ -699,7 +699,7 @@ class DBVersion(models.Model):
 
 
 class CustomizedTextField(models.Model):
-    fieldName = models.CharField(max_length=64, primary_key=True)
+    fieldName = models.CharField(max_length=64)
     content = models.TextField(default="")
 
     def __unicode__(self):
