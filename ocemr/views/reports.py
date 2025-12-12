@@ -63,8 +63,10 @@ def dump_csv(filename, field_names, headers, data_rows):
     if headers:
         for field in field_names:
             row.append(headers[field])
-        out.append(row)
-        for data_row in data_rows:
+    out.append(row)
+    for data_row in data_rows:
+        row = []
+        for field in field_names:
             if data_row.has_key(field):
                 if isinstance(data_row[field], unicode):
                     row.append(data_row[field].encode("ascii", "replace"))
@@ -72,7 +74,7 @@ def dump_csv(filename, field_names, headers, data_rows):
                     row.append(str(data_row[field]).encode("ascii", "replace"))
             else:
                 row.append(None)
-            out.append(row)
+        out.append(row)
 
     import csv, StringIO
     from wsgiref.util import FileWrapper
