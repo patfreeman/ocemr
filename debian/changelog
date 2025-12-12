@@ -1,3 +1,9 @@
+ocemr (0.9.1) stable; urgency=medium
+
+  * Fix dump_csv by @ph1l
+
+ -- Pat <github@e2r4.com>  Fri, 12 Dec 2025 16:09:02 -0600
+
 ocemr (0.9.0) stable; urgency=medium
 
   * replace unicode with ascii in csv dumps by @patfreeman
